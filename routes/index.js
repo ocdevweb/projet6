@@ -15,7 +15,7 @@ router.get('/', async function (req, res, next) {
     'email': newUser.email,
     'password': "uzbubz%&onoin2ß09kjn",
   });
-  
+
   var post_options = {
     host: 'localhost',
     port: '80',
@@ -26,13 +26,13 @@ router.get('/', async function (req, res, next) {
       'Content-Length': Buffer.byteLength(post_data)
     }
   };
-  
+
   var post_req = http.request(post_options, function (res) {
     res.setEncoding('utf8');
-  
+
     res.on('data', async function (data) {
       const response = JSON.parse(data);
-  
+
       console.log(response);
     });
   });
