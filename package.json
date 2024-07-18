@@ -14,9 +14,11 @@
     "dotenv": "^16.4.4",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.3.0",
     "mongoose": "^8.1.2",
-    "pug": "2.0.0-beta11"
+    "pug": "2.0.0-beta11",
+    "querystring": "^0.2.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.3"
