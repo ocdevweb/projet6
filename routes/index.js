@@ -3,6 +3,10 @@ var querystring = require('querystring');
 var http = require('http');
 var express = require('express');
 var router = express.Router();
+const multer = require('multer')
+const storage = multer.memoryStorage();
+const upload = multer({ dest: 'uploads/' });
+const { login, signup, getBooks, getBook, postBook, bestrating, deleteBook } = require('./controllers/controllers')
 
 var Book = require('../server/models/Book');
 var User = require('../server/models/User');
@@ -76,34 +80,26 @@ function insertBookData(userId) {
   ]);
 }
 
-router.post('/api/auth/login', async function (req, res) {
 
-  const { email, password } = req.body;
+router.post('/api/auth/login', login);
 
-  console.log(email);
-  console.log(password);
+router.post('/api/auth/signup', signup);
 
-  let jwtKey = process.env.JWT_SECRET_KEY;
+router.get('/api/books/bestrating', bestrating);
 
-  User.findOne({ email: email })
-    .then(user => {
-      console.log(user);
-      if (!user || !user.password || !user.validPassword(password)) {
-        return res.status(401).json({ message: 'Wrong credentials' });
-      } else {
-        const token = jwt.sign({ id: user._id.toString(), email: email }, jwtKey);
+router.get('/api/books/:id', getBook);
 
-        res.json(JSON.stringify({ token: token, userId: user._id.toString() }));
-      }
-    })
-    .catch((error) => {
-      return res.status(401).send(error);
-    });
-});
+router.get('/api/books', getBooks);
+
+const cpUpload = upload.fields([ { name: 'image', maxCount: 1 }])
+
+router.post('/api/books',cpUpload, postBook);
+
+router.delete('/api/books/:id', deleteBook);
 
 
 function auth(req, res, next) {
-  const token = req.header('x-auth-token');
+  const token = req.header('Authorization');
   if (!token) return res.status(401).json({ message: 'Authentication failed' });
 
   try {
