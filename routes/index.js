@@ -3,9 +3,7 @@ var querystring = require('querystring');
 var http = require('http');
 var express = require('express');
 var router = express.Router();
-const multer = require('multer')
-const storage = multer.memoryStorage();
-const upload = multer({ dest: 'uploads/' });
+const multer = require('./middleware/multer-config');
 const { login, signup, getBooks, getBook, postBook, bestrating, deleteBook } = require('./controllers/controllers')
 
 var Book = require('../server/models/Book');
@@ -91,9 +89,7 @@ router.get('/api/books/:id', getBook);
 
 router.get('/api/books', getBooks);
 
-const cpUpload = upload.fields([ { name: 'image', maxCount: 1 }])
-
-router.post('/api/books',cpUpload, postBook);
+router.post('/api/books', multer, postBook);
 
 router.delete('/api/books/:id', deleteBook);
 

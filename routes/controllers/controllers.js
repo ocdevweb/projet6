@@ -90,14 +90,14 @@ deleteBook = function (req, res) {
   })
   .catch((error) => {
     return res.status(401).send(error);
-  });
+  }); 
 }
 
 postBook = function (req, res) {
   const book = req.body.book;
-  const image = req.files['image'][0]
 
   var bookDb = new Book(JSON.parse(book));
+  bookDb.imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
 
   bookDb.save()
     .then( book => {
