@@ -1,10 +1,8 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-
 const connectDB = require('./server/config/db');
 require('dotenv').config();
-
 var rootRouter = require('./routes/index');
 var { cors } = require('./routes/middleware/cors');
 var app = express();
@@ -15,7 +13,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'uploads')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
 
 app.use(cors)
 

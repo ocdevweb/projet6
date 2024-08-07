@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-var Book = require('../server/models/Book');
+var Book = require('../../server/models/Book');
 
 function auth(req, res, next) {
   var token = req.header('Authorization').toString();
