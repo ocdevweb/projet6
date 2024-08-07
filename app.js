@@ -6,6 +6,7 @@ const connectDB = require('./server/config/db');
 require('dotenv').config();
 
 var rootRouter = require('./routes/index');
+var { cors } = require('./routes/middleware/cors');
 var app = express();
 
 connectDB();
@@ -15,12 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'uploads')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-function cors(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-}
+
 app.use(cors)
 
 app.use('/', rootRouter);
@@ -37,7 +33,7 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 500).send(err);
+  res.status(res.statusCode || err.status || 500).send(err);
 });
 
 module.exports = app;

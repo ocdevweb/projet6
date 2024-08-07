@@ -32,10 +32,19 @@ const BookSchema = new Schema({
   },
   genre: {
     type: String
-  },
-  averageRating: {
-    type: Number
   }
+},
+{
+  virtuals: {
+    averageRating: {
+      type: Number,
+      get() {
+        let l = this.ratings.length
+        return l > 0 ? this.ratings.reduce( (a, b) => a + b.grade, 0) / l : 0;
+      }
+    }
+  },
+  toJSON: { virtuals: true }
 });
 
 module.exports = mongoose.model('Book', BookSchema);

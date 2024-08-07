@@ -1,51 +1,8 @@
-const jwt = require('jsonwebtoken');
-var querystring = require('querystring');
-var http = require('http');
-var express = require('express');
-var router = express.Router();
 const sharp = require("sharp");
 const fs = require('node:fs/promises');
 const path = require('path')
 
 var Book = require('../../server/models/Book');
-var User = require('../../server/models/User');
-
-login = function (req, res) {
-  const { email, password } = req.body;
-
-  let jwtKey = process.env.JWT_SECRET_KEY;
-
-  User.findOne({ email: email })
-    .then(user => {
-      if (!user || !user.password || !user.validPassword(password)) {
-        return res.status(401).json({ message: 'Wrong credentials' });
-      } else {
-        const token = jwt.sign({ id: user._id.toString(), email: email }, jwtKey);
-
-        res.json({ token: token, userId: user._id.toString() });
-      }
-    })
-    .catch((error) => {
-      return res.status(401).send(error);
-    });
-}
-
-signup = function (req, res) {
-  const { email, password } = req.body;
-
-  var user = new User({
-    email: email,
-  });
-
-  user.password = user.generateHash(password);
-  user.save()
-    .then(user => {
-      return res.status(200).json({ message: 'Utilisateur crée avec succès.' });
-    })
-    .catch(error => {
-      return res.status(401).send(error);
-    });
-}
 
 getBooks = function (req, res) {
   Book.find({})
@@ -194,8 +151,6 @@ function makeid(length) {
 }
 
 module.exports = {
-  login,
-  signup,
   getBooks,
   getBook,
   postBook,
