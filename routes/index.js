@@ -1,6 +1,4 @@
 const jwt = require('jsonwebtoken');
-var querystring = require('querystring');
-var http = require('http');
 var express = require('express');
 var router = express.Router();
 const multer = require('multer')
@@ -12,38 +10,6 @@ var Book = require('../server/models/Book');
 var User = require('../server/models/User');
 
 module.exports = router;
-
-function insertUserData() {
-  var user = new User({
-    email: "pierrepaul@gmail.com",
-  });
-
-  user.password = user.generateHash("uzbubz%&onoin2ß09kjn");
-
-  return user.save();
-};
-
-
-function insertBookData(userId) {
-  return Book.insertMany([
-    {
-      title: "titre 2",
-      author: "james hite",
-      userId: userId,
-    },
-    {
-      title: "titre 1",
-      author: "james hite",
-      userId: userId,
-    },
-    {
-      title: "titre 3",
-      author: "james hite",
-      userId: userId,
-    }
-  ]);
-}
-
 
 router.post('/api/auth/login', login);
 
