@@ -11,43 +11,7 @@ const { login, signup } = require('./controllers/users')
 var Book = require('../server/models/Book');
 var User = require('../server/models/User');
 
-router.get('/', async function (req, res, next) {
-  let newUser = await insertUserData();
-  let newBooks = await insertBookData(newUser._id.toString())
-
-  var post_data = querystring.stringify({
-    'email': newUser.email,
-    'password': "uzbubz%&onoin2ß09kjn",
-  });
-
-  var post_options = {
-    host: 'localhost',
-    port: '80',
-    path: '/api/auth/login',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Content-Length': Buffer.byteLength(post_data)
-    }
-  };
-
-  var post_req = http.request(post_options, function (res) {
-    res.setEncoding('utf8');
-
-    res.on('data', async function (data) {
-      const response = JSON.parse(data);
-
-      console.log(response);
-    });
-  });
-  post_req.write(post_data);
-  post_req.end();
-
-  res.send(JSON.stringify(newBooks));
-});
-
 module.exports = router;
-
 
 function insertUserData() {
   var user = new User({
@@ -108,13 +72,11 @@ function auth(req, res, next) {
   let jwtKey = process.env.JWT_SECRET_KEY;
 
   try {
-    console.log("auth: try")
     const decoded = jwt.verify(token, jwtKey);
   } catch (error) {
-    console.log("auth: catch")
     return res.status(400).send(error);
   }
-  console.log("auth: next")
+
   next();
 };
 

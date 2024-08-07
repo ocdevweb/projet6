@@ -72,7 +72,6 @@ deleteBook = function (req, res) {
 
   Book.findOneAndDelete({ _id: id })
     .then(book => {
-      console.log("uploads/" + book.imageUrl.substring(book.imageUrl.lastIndexOf("/") + 1))
       return fs.unlink(path.resolve("uploads/" + book.imageUrl.substring(book.imageUrl.lastIndexOf("/") + 1)))
     })
     .then(() => res.status(200).json({ message: 'Livre supprimmé avec succés.' }))
@@ -82,7 +81,6 @@ deleteBook = function (req, res) {
 }
 
 postBook = function (req, res) {
-  console.log("postBook")
   const book = req.body.book;
 
   const webpFile = makeid(10) + ".webp"
@@ -109,7 +107,6 @@ putBook = async function (req, res) {
 
   if (req.file) {
     book = JSON.parse(req.body.book);
-    console.log(book)
     const webpFile = makeid(10) + ".webp"
     book.imageUrl = `${req.protocol}://${req.get('host')}/uploads/${webpFile}`
     const buffer = req.file.buffer
@@ -123,7 +120,6 @@ putBook = async function (req, res) {
     book = req.body
   }
 
-  console.log(book)
   Book.findByIdAndUpdate(id, book)
     .then(bookDb => {
       if (book.imageUrl && bookDb.imageUrl) {

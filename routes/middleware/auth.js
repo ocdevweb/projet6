@@ -9,13 +9,11 @@ function auth(req, res, next) {
   let jwtKey = process.env.JWT_SECRET_KEY;
 
   try {
-    console.log("auth: try")
     const decoded = jwt.verify(token, jwtKey);
   } catch (error) {
-    console.log("auth: catch")
     return res.status(400).send(error);
   }
-  console.log("auth: next")
+
   next();
 };
 
