@@ -10,7 +10,7 @@ getBooks = function (req, res) {
       res.json(books);
     })
     .catch((error) => {
-      return res.status(401).send(error);
+      return res.status(500).send(error);
     });
 }
 
@@ -22,7 +22,7 @@ bestrating = function (req, res) {
       res.json(books);
     })
     .catch(error => {
-      return res.status(401).send(error);
+      return res.status(500).send(error);
     });
 }
 
@@ -34,7 +34,7 @@ getBook = function (req, res) {
       return res.json(book);
     })
     .catch((error) => {
-      return res.status(401).send(error);
+      return res.status(500).send(error);
     });
 }
 
