@@ -61,7 +61,7 @@ rating = function (req, res) {
       return res.json(book);
     })
     .catch((error) => {
-      return res.status(401).send(error);
+      return res.status(500).send(error);
     });
 }
 
@@ -76,7 +76,7 @@ deleteBook = function (req, res) {
     })
     .then(() => res.status(200).json({ message: 'Livre supprimmé avec succés.' }))
     .catch((error) => {
-      return res.status(401).send(error);
+      return res.status(500).send(error);
     });
 }
 

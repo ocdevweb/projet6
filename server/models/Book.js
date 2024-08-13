@@ -40,7 +40,7 @@ const BookSchema = new Schema({
       type: Number,
       get() {
         let l = this.ratings.length
-        return l > 0 ? this.ratings.reduce( (a, b) => a + b.grade, 0) / l : 0;
+        return l > 0 ? Math.round(this.ratings.reduce( (a, b) => a + b.grade, 0) / l*100)/100 : 0;
       }
     }
   },
