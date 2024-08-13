@@ -19,10 +19,9 @@ function auth(req, res, next) {
 
 function authId(req, res, next) {
   var token = req.header('Authorization');
-
-  token = token.replace(/^\s*Bearer\s*/, "")
   if (!token) return res.status(401).json({ message: 'Authentication failed' });
 
+  token = token.replace(/^\s*Bearer\s*/, "")
   var decoded
   let id = req.params.id
   let jwtKey = process.env.JWT_SECRET_KEY;
